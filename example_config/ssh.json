@@ -1,0 +1,37 @@
+{
+	"config": [
+		{
+			"name": "native",
+			"mode": "native",
+			"port": 22,
+			"auth required": true,
+			"max auth tries": 3
+		},
+		{
+			"name": "developers",
+			"mode": "dockerized",
+			"port": 9001,
+			"location": "/var/dweb/developers",
+			"links": [
+				{"target": "/srv", "local": "/srv"},
+				{"target": "/home"}
+			],
+			"images": [
+				{"name": "docker", "src": "docker/docker"},
+				{"name": "My custom Dockerfile", "src": "./Dockerfile"},
+				{
+					"name": "Another custom Dockerfile",
+					"image": [
+						{"instruction": "FROM", "args": ["ubuntu:20.04"]},
+						{"instruction": "RUN", "args": ["apt", "update"]},
+						{"instruction": "RUN", "args": ["apt", "upgrade"]}
+					]
+				}
+			],
+			"users": [
+				{"name": "dev0","passwordless": true},
+				{"name": "dev1"}
+			]
+		}
+	]
+}
